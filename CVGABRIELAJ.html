@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Interactivo - Gabriela Justiniano Colinas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals (alabaster, silver sand) with a dark slate gray and subtle viridian green accent. -->
+    <!-- Application Structure Plan: A single-page portfolio with a sticky navigation bar for easy access to key sections. The design uses thematic sections to group information logically (summary, experience, skills, etc.). The experience is presented as an interactive vertical timeline where users can click to expand details, making it more engaging than a static list. Skills are visualized using a bar chart for languages to provide a quick understanding of proficiency. This structure allows recruiters to quickly navigate to the information they find most relevant, improving usability. -->
+    <!-- Visualization & Content Choices: Report Info: Language Proficiency -> Goal: Compare -> Viz: Horizontal Bar Chart (Chart.js) -> Interaction: Hover tooltips -> Justification: Provides a clear, immediate visual comparison of language skills. Report Info: Professional Experience -> Goal: Organize/Show Change -> Viz: Interactive Vertical Timeline (HTML/CSS/JS) -> Interaction: Click to expand/collapse details -> Justification: Engages the user and allows them to focus on specific roles without being overwhelmed by text. Report Info: Skills -> Goal: Inform/Organize -> Viz: Styled Tags/Pills (HTML/CSS) -> Interaction: None -> Justification: A clean, modern way to present a list of skills that avoids the potential misrepresentation of using a quantitative chart for qualitative data. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0EBE3; /* Alabaster - warm neutral */
+        }
+        .timeline-item-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .timeline-item-content.open {
+            max-height: 500px; /* Adjust as needed */
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #576C75; /* Dark Slate Gray */
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-[#E4DCCF] sticky top-0 z-50 shadow-md">
+        <nav class="container mx-auto px-6 py-4">
+            <ul class="flex justify-center space-x-4 md:space-x-8">
+                <li><a href="#resumen" class="nav-link text-gray-700 hover:text-[#576C75] font-medium">Resumen</a></li>
+                <li><a href="#experiencia" class="nav-link text-gray-700 hover:text-[#576C75] font-medium">Experiencia</a></li>
+                <li><a href="#educacion" class="nav-link text-gray-700 hover:text-[#576C75] font-medium">Educación</a></li>
+                <li><a href="#habilidades" class="nav-link text-gray-700 hover:text-[#576C75] font-medium">Habilidades</a></li>
+                <li><a href="#actividades" class="nav-link text-gray-700 hover:text-[#576C75] font-medium">Actividades</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="hero" class="text-center py-16 px-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#576C75]">Gabriela Justiniano Colinas</h1>
+            <p class="text-xl md:text-2xl text-gray-600 mt-2">Abogada | Especialista en Protección de Datos</p>
+            <div class="mt-6 flex justify-center items-center space-x-6 text-gray-600">
+                <span class="flex items-center">
+                    <span class="mr-2 text-lg">●</span> +56 9 67686047
+                </span>
+                <span class="flex items-center">
+                     <span class="mr-2 text-lg">●</span> gabrielapazjc@gmail.com
+                </span>
+                <span class="flex items-center">
+                     <span class="mr-2 text-lg">●</span> Valparaíso, Chile
+                </span>
+            </div>
+        </section>
+
+        <div class="bg-white/50 backdrop-blur-sm rounded-xl shadow-lg p-6 md:p-10">
+
+            <section id="resumen" class="mb-16 scroll-mt-24">
+                <h2 class="text-3xl font-bold text-center text-[#576C75] mb-8">Resumen Profesional</h2>
+                <p class="text-center max-w-3xl mx-auto text-lg leading-relaxed text-gray-700">
+                    Abogada con especial interés en la protección de datos personales y derecho digital. Cuento con formación específica en la materia y experiencia en asesoría a startups, lo que me ha permitido desarrollar habilidades en propiedad industrial y competencias digitales. Poseo una alta capacidad de investigación, proactividad y trabajo en equipo. Busco aplicar mis conocimientos y habilidades para contribuir al cumplimiento de la normativa de protección de datos en una organización sólida y en crecimiento.
+                </p>
+            </section>
+
+            <hr class="my-12 border-gray-300">
+
+            <section id="experiencia" class="mb-16 scroll-mt-24">
+                <h2 class="text-3xl font-bold text-center text-[#576C75] mb-12">Experiencia Profesional</h2>
+                <div class="intro-text text-center max-w-3xl mx-auto text-lg leading-relaxed text-gray-700 mb-12">
+                    Esta sección detalla mi trayectoria profesional. He organizado mi experiencia en una línea de tiempo interactiva. Haz clic en cada puesto para ver más detalles sobre mis responsabilidades y logros, lo que te permitirá comprender mejor cómo mi trabajo anterior se alinea con los desafíos del derecho digital y la protección de datos.
+                </div>
+                <div class="relative max-w-2xl mx-auto">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gray-300"></div>
+                    <div id="timeline-container" class="space-y-12">
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-12 border-gray-300">
+
+            <section id="educacion" class="mb-16 scroll-mt-24">
+                <h2 class="text-3xl font-bold text-center text-[#576C75] mb-12">Educación y Formación</h2>
+                <div class="intro-text text-center max-w-3xl mx-auto text-lg leading-relaxed text-gray-700 mb-12">
+                    Mi formación académica es la base de mi carrera. Aquí encontrarás mis títulos universitarios y los cursos de especialización que he completado, con un énfasis especial en aquellos directamente relacionados con la protección de datos y la propiedad intelectual, demostrando mi compromiso con el aprendizaje continuo en áreas clave del derecho tecnológico.
+                </div>
+                <div id="education-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                </div>
+            </section>
+
+            <hr class="my-12 border-gray-300">
+
+            <section id="habilidades" class="mb-16 scroll-mt-24">
+                <h2 class="text-3xl font-bold text-center text-[#576C75] mb-12">Idiomas y Habilidades</h2>
+                <div class="intro-text text-center max-w-3xl mx-auto text-lg leading-relaxed text-gray-700 mb-12">
+                    Las habilidades son fundamentales para el éxito. En esta sección, he visualizado mi dominio de idiomas para una comprensión rápida y he listado mis competencias técnicas y blandas. Estas habilidades me permiten abordar desafíos complejos, colaborar eficazmente y adaptarme a nuevos entornos tecnológicos y legales.
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-xl font-semibold text-center text-gray-700 mb-4">Dominio de Idiomas</h3>
+                        <div class="chart-container">
+                            <canvas id="languagesChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold text-center text-gray-700 mb-4">Habilidades Técnicas</h3>
+                            <div id="tech-skills-container" class="flex flex-wrap justify-center gap-3">
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-center text-gray-700 mb-4">Habilidades Blandas</h3>
+                            <div id="soft-skills-container" class="flex flex-wrap justify-center gap-3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-12 border-gray-300">
+
+            <section id="actividades" class="mb-16 scroll-mt-24">
+                <h2 class="text-3xl font-bold text-center text-[#576C75] mb-12">Actividades y Honores</h2>
+                <div class="intro-text text-center max-w-3xl mx-auto text-lg leading-relaxed text-gray-700 mb-12">
+                    Mi participación en actividades extracurriculares y los reconocimientos obtenidos reflejan mi pasión por el derecho y mi compromiso con la excelencia. Esta sección destaca logros y participaciones que complementan mi perfil profesional y demuestran habilidades de liderazgo y colaboración.
+                </div>
+                <div id="activities-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="bg-[#E4DCCF] mt-16 py-8">
+        <div class="container mx-auto text-center text-gray-600">
+            <p>&copy; 2025 Gabriela Justiniano Colinas. Todos los derechos reservados.</p>
+            <p class="mt-2">Diseño interactivo de CV.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const experienceData = [
+                {
+                    date: '2024 - Hoy',
+                    title: 'Asesora Jurídica',
+                    details: 'Asesoría en propiedad industrial a startups y centros de innovación. Colaboración en áreas civil, comercial y laboral.'
+                },
+                {
+                    date: '2020 - 2023',
+                    title: 'Procuradora',
+                    details: 'Práctica en derecho civil, tributario y asesorías en propiedad intelectual.'
+                },
+                {
+                    date: '2019 - 2020',
+                    title: 'Procuradora área civil y comercial',
+                    company: 'Del Fierro y Caballero Abogados, Valparaíso',
+                    details: 'Práctica en procedimientos concursales de liquidación y contratos en general.'
+                },
+                {
+                    date: '2019 - 2020',
+                    title: 'Procuradora área penal',
+                    company: 'Ciudad Legal, Valparaíso',
+                    details: 'Gestión y seguimiento de causas en el área penal.'
+                },
+                {
+                    date: '2017 - 2020',
+                    title: 'Ayudante de investigación',
+                    company: 'FONDECYT regular N°11171164',
+                    details: 'Colaboración en el proyecto "Fe pública y documentos mercantiles: estudio de la prueba documental pública en el derecho comercial chileno".'
+                }
+            ];
+
+            const educationData = [
+                { title: 'Abogada', institution: 'UNIVERSIDAD DE VALPARAÍSO', details: 'Admitida para el ejercicio en octubre de 2024.', highlight: true },
+                { title: 'Licenciada en Ciencias Jurídicas y Sociales', institution: 'UNIVERSIDAD DE VALPARAÍSO', details: 'Agosto de 2022.' },
+                { title: 'Curso de Protección de Datos Personales', institution: 'FUNDACIÓN ESCUELA DE DERECHO UNIVERSIDAD DE VALPARAÍSO', details: '2025.', highlight: true },
+                { title: 'Curso de Litigación Tributaria Civil', institution: 'UNIVERSIDAD ADOLFO IBÁÑEZ', details: '2024.' },
+                { title: 'Curso de Propiedad Intelectual', institution: 'UNIVERSIDAD DEL DESARROLLO', details: '2024.' }
+            ];
+
+            const techSkills = ['Investigación jurídica', 'Competencias digitales', 'Design, Visual y Legal Thinking'];
+            const softSkills = ['Proactividad', 'Empatía', 'Trabajo en equipo', 'Organización y planificación', 'Alta capacidad de aprendizaje'];
+
+            const activitiesData = [
+                { title: 'Premio Centro de Exalumnos de Derecho', details: 'Por destacada participación en actividades extracurriculares.' },
+                { title: '2° Lugar en Semillero Derecho Procesal', details: 'Miembro del equipo Derecho UV, Universidad Diego Portales, 2018.' },
+                { title: 'Ayudante de Cátedras', details: 'Derecho Romano e Historia del Derecho, Universidad de Valparaíso, 2016-2018.' }
+            ];
+
+            const timelineContainer = document.getElementById('timeline-container');
+            experienceData.forEach((item, index) => {
+                const isLeft = index % 2 === 0;
+                const timelineItem = document.createElement('div');
+                timelineItem.className = `relative flex items-center ${isLeft ? 'justify-start' : 'justify-end'}`;
+                timelineItem.innerHTML = `
+                    <div class="w-5/12">
+                        <div class="bg-white p-4 rounded-lg shadow-md cursor-pointer timeline-item-header">
+                            <time class="text-sm font-semibold text-[#4A7C59]">${item.date}</time>
+                            <h3 class="text-lg font-bold mt-1 text-gray-800">${item.title}</h3>
+                            ${item.company ? `<p class="text-sm text-gray-500">${item.company}</p>` : ''}
+                            <div class="timeline-item-content mt-2">
+                                <p class="text-gray-600">${item.details}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-[#576C75] rounded-full"></div>
+                `;
+                timelineContainer.appendChild(timelineItem);
+            });
+
+            document.querySelectorAll('.timeline-item-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    header.querySelector('.timeline-item-content').classList.toggle('open');
+                });
+            });
+
+            const educationContainer = document.getElementById('education-container');
+            educationData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `bg-white p-6 rounded-lg shadow-md transition-transform transform hover:-translate-y-1 ${item.highlight ? 'border-2 border-[#4A7C59]' : ''}`;
+                card.innerHTML = `
+                    <h3 class="text-lg font-bold text-gray-800">${item.title}</h3>
+                    <p class="text-md text-gray-600 mt-1">${item.institution}</p>
+                    <p class="text-sm text-gray-500 mt-2">${item.details}</p>
+                `;
+                educationContainer.appendChild(card);
+            });
+            
+            const createSkillTag = (skill) => `<span class="bg-[#E4DCCF] text-[#576C75] text-sm font-medium px-4 py-2 rounded-full">${skill}</span>`;
+            document.getElementById('tech-skills-container').innerHTML = techSkills.map(createSkillTag).join('');
+            document.getElementById('soft-skills-container').innerHTML = softSkills.map(createSkillTag).join('');
+            
+            const activitiesContainer = document.getElementById('activities-container');
+            activitiesData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-lg shadow-md text-center';
+                card.innerHTML = `
+                    <h3 class="text-lg font-bold text-gray-800">${item.title}</h3>
+                    <p class="text-md text-gray-600 mt-2">${item.details}</p>
+                `;
+                activitiesContainer.appendChild(card);
+            });
+
+            const ctx = document.getElementById('languagesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Español', 'Inglés', 'Portugués'],
+                    datasets: [{
+                        label: 'Nivel de Dominio',
+                        data: [100, 85, 75],
+                        backgroundColor: [
+                            'rgba(74, 124, 89, 0.6)', // Viridian Green
+                            'rgba(87, 108, 117, 0.6)', // Dark Slate Gray
+                            'rgba(195, 195, 195, 0.6)'  // Silver Sand
+                        ],
+                        borderColor: [
+                            'rgba(74, 124, 89, 1)',
+                            'rgba(87, 108, 117, 1)',
+                            'rgba(195, 195, 195, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    if (value === 100) return 'Nativo';
+                                    if (value === 85) return 'Avanzado';
+                                    if (value === 75) return 'Intermedio-Alto';
+                                    return '';
+                                },
+                                font: {
+                                    size: 10,
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let value = context.raw;
+                                    let label = '';
+                                    if (value === 100) label = 'Nativo';
+                                    else if (value >= 85) label = 'Avanzado';
+                                    else if (value >= 75) label = 'Intermedio-Alto';
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section[id]');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
